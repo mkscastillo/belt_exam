@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Job</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .content {
+        padding: 20px;
+    }
+
+    a#button {
+        padding: 4px;
+        color: black;
+        border: 1px gray solid;
+    }
+    h5.error{
+        color:red;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Hello, {{ name }}! Create a job!</a>
+        <a class="nav-link" href="/logout">Logout</a>
+    </nav>
+    <div class="content">
+        <form action="/addjob" method="POST">
+            {% csrf_token %}
+            <h3>Title:
+                <h5 class="error">{% if messages %}
+                    {% for message in messages %}
+                    {% if message.extra_tags == 'title' %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </h5>
+                <input type="text" name="title"></h3>
+            <h3>Description:
+                <h5 class="error">{% if messages %}
+                    {% for message in messages %}
+                    {% if message.extra_tags == 'description' %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </h5>
+                <textarea name="description" cols=50></textarea></h3>
+            <h3>Location:
+                <h5 class="error">{% if messages %}
+                    {% for message in messages %}
+                    {% if message.extra_tags == 'location' %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </h5>
+                <input type="text" name="location"></h3>
+            <h3>
+                Category:
+                {% for category in categories %}
+                <h5><input type="checkbox" name="category" value='{{category.id}}'> {{category.title}}</h5>
+                {% endfor %}
+            </h3>
+            <h3 id="other">Other: <input type="text" name="other"></h3>
+            <a href="/dashboard" id="button">Cancel</a>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+
+</html>
